@@ -192,7 +192,6 @@
               {{- end }}
             {{- end }}
           {{- end }}
-
         args:
           {{- with .Values.global }}
            {{- if not .checkNewVersion }}
@@ -355,7 +354,7 @@
           {{- end }}
 
           {{- with .Values.metrics.otlp }}
-           {{- include "traefik.oltpCommonParams" (dict "path" "metrics.otlp" "oltp" .) | nindent 8 }}
+           {{- include "traefik.oltpCommonParams" (dict "path" "metrics.otlp" "oltp" .) | nindent 8 | trim }}
            {{- if .enabled }}
              {{- if ne .addEntryPointsLabels nil }}
               {{- with .addEntryPointsLabels | toString }}
@@ -384,7 +383,7 @@
           {{- if .Values.ocsp.enabled }}
           - "--ocsp=true"
           {{- if $.Values.ocsp.responderOverrides -}}
-          {{- include "traefik.yaml2CommandLineArgs" (dict "path" "ocsp.responderOverrides" "content" $.Values.ocsp.responderOverrides) | nindent 10 }}
+          {{- include "traefik.yaml2CommandLineArgs" (dict "path" "ocsp.responderOverrides" "content" $.Values.ocsp.responderOverrides) | nindent 10 | trim }}
           {{- end }}
           {{- end }}
 
@@ -420,7 +419,7 @@
           {{- end }}
 
           {{- with .Values.tracing.otlp }}
-           {{- include "traefik.oltpCommonParams" (dict "path" "tracing.otlp" "oltp" .) | nindent 8 }}
+           {{- include "traefik.oltpCommonParams" (dict "path" "tracing.otlp" "oltp" .) | nindent 8 | trim }}
           {{- end }}
           {{- with .Values.experimental.fastProxy }}
             {{- if .enabled }}
@@ -783,7 +782,7 @@
           - "--log.level={{ . | upper }}"
             {{- end }}
             {{- with .general.otlp }}
-             {{- include "traefik.oltpCommonParams" (dict "path" "log.otlp" "oltp" .) | nindent 8 }}
+             {{- include "traefik.oltpCommonParams" (dict "path" "log.otlp" "oltp" .) | nindent 8 | trim }}
             {{- end }}
             {{- if .access.enabled }}
           - "--accesslog=true"
@@ -822,7 +821,7 @@
           - "--accesslog.fields.headers.names.{{ $fieldname }}={{ $fieldaction }}"
               {{- end }}
               {{- with .access.otlp }}
-                {{- include "traefik.oltpCommonParams" (dict "path" "accesslog.otlp" "oltp" .) | nindent 8 }}
+                {{- include "traefik.oltpCommonParams" (dict "path" "accesslog.otlp" "oltp" .) | nindent 8 | trim }}
               {{- end }}
             {{- end }}
           {{- end }}
@@ -909,13 +908,13 @@
               {{- end }}
             {{- end }}
             {{- if and $.Values.tracing.otlp.enabled .tracing.additionalTraceHeaders.enabled }}
-              {{- include "traefik.yaml2CommandLineArgs" (dict "path" "hub.tracing.additionalTraceHeaders.traceContext" "content" $.Values.hub.tracing.additionalTraceHeaders.traceContext) | nindent 10 }}
+              {{- include "traefik.yaml2CommandLineArgs" (dict "path" "hub.tracing.additionalTraceHeaders.traceContext" "content" $.Values.hub.tracing.additionalTraceHeaders.traceContext) | nindent 10 | trim}}
             {{- end }}
             {{- if .providers.consulCatalogEnterprise.enabled }}
-              {{- include "traefik.yaml2CommandLineArgs" (dict "path" "hub.providers.consulCatalogEnterprise" "content" (omit $.Values.hub.providers.consulCatalogEnterprise "enabled")) | nindent 10 }}
+              {{- include "traefik.yaml2CommandLineArgs" (dict "path" "hub.providers.consulCatalogEnterprise" "content" (omit $.Values.hub.providers.consulCatalogEnterprise "enabled")) | nindent 10 | trim }}
             {{- end }}
             {{- if .providers.microcks.enabled }}
-              {{- include "traefik.yaml2CommandLineArgs" (dict "path" "hub.providers.microcks" "content" (omit $.Values.hub.providers.microcks "enabled")) | nindent 10 }}
+              {{- include "traefik.yaml2CommandLineArgs" (dict "path" "hub.providers.microcks" "content" (omit $.Values.hub.providers.microcks "enabled")) | nindent 10 | trim }}
             {{- end }}
           {{- end }}
           {{- with .pluginRegistry.sources }}
@@ -1060,6 +1059,6 @@
       {{- end }}
       {{- if .Values.topologySpreadConstraints }}
       topologySpreadConstraints:
-        {{- tpl (toYaml .Values.topologySpreadConstraints) . | nindent 8 }}
+        {{- tpl (toYaml .Values.topologySmpreadConstraints) . | nindent 8 }}
       {{- end }}
 {{ end -}}
