@@ -1,6 +1,6 @@
 {{/* Print release information */}}
 {{- printf "\n\n" -}}
-{{ .Release.Name }} with {{ include "traefik.imageRegistry" . }}/{{ include "traefik.imageRepository" . }}:{{ .Values.image.tag | default (include "traefik.defaultTag" .) }} has been deployed successfully on {{ template "traefik.namespace" . }} namespace!
+{{ .Release.Name }} with {{ include "traefik.image-name" . }} has been deployed successfully on {{ template "traefik.namespace" . }} namespace!
 {{- printf "\n" -}}
 
 
